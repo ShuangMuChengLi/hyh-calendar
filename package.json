@@ -1,0 +1,23 @@
+{
+    "name": "hyh-calendar",
+    "version": "1.0.1",
+    "description": "A calendar component of vue.js ",
+    "main": "v-hyh-time.vue",
+    "author": {
+        "name": "linchaoqun",
+        "email": "lchaoqun@sina.cn"
+    },
+    "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:ShuangMuChengLi/html5-storage.git"
+    },
+    "homepage": "http://www.linchaoqun.com/",
+    "keywords": [
+        "hyh-calendar"
+    ],
+    "dependencies": {
+        "lodash": "^4.17.10",
+        "moment": "^2.22.1"
+    }
+}
