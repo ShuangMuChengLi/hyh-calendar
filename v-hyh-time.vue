@@ -184,12 +184,16 @@
                 this.currentViewYear = this.currentViewMonth.year();
                 switch (this.currentType){
                     case "day":
+                        let date = this.currentViewMonth.date();
                         this.buildCalendar();
+                        this.selectDay( this.currentMonthDays[date - 1]);
                         break;
                     case "week":
                         this.buildCalendar();
+                        this.selectDay(this.currentViewMonth);
                         break;
                     case "month":
+                        this.selectMonth(this.currentViewMonth.month() + 1)
                         break;
                 }
             },
@@ -317,6 +321,7 @@
                 }
             },
             selectDay(item){
+                if(!item )return;
                 if(this.currentType === "day"){
                     this.dayViewCurrentDay = item;
                     this.inputValue = item.format("YYYY-MM-DD");
