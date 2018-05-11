@@ -1,49 +1,49 @@
 <template>
-    <div class="hyh-datetime-plugin-wrapper">
-        <input v-model="inputValue" class="hyh-time-input"/>
-        <div class="hyh-datetime-pop-wrapper">
+    <div class="hyh-datetime-plugin-wrapper" @click.stop>
+        <input v-model="inputValue" class="hyh-time-input" readonly @click.stop="inputValueClick"/>
+        <div class="hyh-datetime-pop-wrapper" v-show="popShow">
             <ul class="hyh-datetime-list-ul">
                 <li class="hyh-datetime-list-li "
-                    @click="changeTable('realTime')"
+                    @click.stop="changeTable('realTime')"
                     :class="{active:currentType === 'realTime'}">
                     <span>实时</span>
                     <span v-show="currentType === 'realTime'" class="hyh-datetime-list-li-value" >{{typeListValue}}</span>
                 </li>
                 <li class="hyh-datetime-list-li"
-                    @click="changeTable('current1')"
+                    @click.stop="changeTable('current1')"
                     :class="{active:currentType === 'current1'}">
                     <span>最近1天</span>
                     <span v-show="currentType === 'current1'" class="hyh-datetime-list-li-value" >{{typeListValue}}</span>
                 </li>
                 <li class="hyh-datetime-list-li"
-                    @click="changeTable('current7')"
+                    @click.stop="changeTable('current7')"
                     :class="{active:currentType === 'current7'}">
                     <span>最近7天</span>
                     <span v-show="currentType === 'current7'" class="hyh-datetime-list-li-value" >{{typeListValue}}</span>
                 </li>
                 <li class="hyh-datetime-list-li"
-                    @click="changeTable('current30')"
+                    @click.stop="changeTable('current30')"
                     :class="{active:currentType === 'current30'}">
                     <span>最近30天</span>
                     <span v-show="currentType === 'current30'" class="hyh-datetime-list-li-value" >{{typeListValue}}</span>
                 </li>
                 <li class="hyh-datetime-list-li"
                     :class="{active:currentType === 'day'}"
-                    @click="changeTable('day')">日</li>
+                    @click.stop="changeTable('day')">日</li>
                 <li class="hyh-datetime-list-li"
                     :class="{active:currentType === 'week'}"
-                    @click="changeTable('week')">周</li>
+                    @click.stop="changeTable('week')">周</li>
                 <li class="hyh-datetime-list-li"
                     :class="{active:currentType === 'month'}"
-                    @click="changeTable('month')">月</li>
+                    @click.stop="changeTable('month')">月</li>
             </ul>
             <div class="hyh-datetime-hierarchy-wrapper" v-show="dayHierarchyShow || monthHierarchyShow">
                 <div class="hyh-hierarchy-wrapper"  v-show="dayHierarchyShow">
                     <header class="hyh-hierarchy-toolbar">
                         <div class="hyh-hierarchy-selectleft-wrap noselect"
-                            @click="gotoPreMonth"><</div>
+                            @click.stop="gotoPreMonth"><</div>
                         <div class="hyh-hierarchy-selectright-wrap"
-                             @click="gotoNextMonth">></div>
+                             @click.stop="gotoNextMonth">></div>
                         <div class="hyh-hierarchy-selectcenter-wrap noselect">
                             {{ViewTitle()}}
                         </div>
@@ -64,7 +64,7 @@
                                          active: dayActive(item),
                                          over:dayInWeekActive(item)
                                      }"
-                                  @click="selectDay(item)"
+                                  @click.stop="selectDay(item)"
                                   v-for="item in preMonthDays">{{item.date()}}</span>
                             <span class="hyh-calendar-content-span"
                                   :class="{
@@ -72,13 +72,13 @@
                                          over:dayInWeekActive(item)
                                      }"
                                   v-for="item in currentMonthDays"
-                                  @click="selectDay(item)">{{item.date()}}</span>
+                                  @click.stop="selectDay(item)">{{item.date()}}</span>
                             <span class=" not-current-view-item"
                                   :class="{
                                          active: dayActive(item),
                                          over:dayInWeekActive(item)
                                      }"
-                                  @click="selectDay(item)"
+                                  @click.stop="selectDay(item)"
                                   v-for="item in nextMonthDays">{{item.date()}}</span>
                         </div>
                     </div>
@@ -86,9 +86,9 @@
                 <div class="hyh-hierarchy-wrapper"  v-show="monthHierarchyShow">
                     <header class="hyh-hierarchy-toolbar">
                         <div class="hyh-hierarchy-selectleft-wrap"
-                            @click = "gotoPreYear()"><</div>
+                            @click.stop = "gotoPreYear()"><</div>
                         <div class="hyh-hierarchy-selectright-wrap"
-                             @click = "gotoNextYear()">></div>
+                             @click.stop = "gotoNextYear()">></div>
                         <div class="hyh-hierarchy-selectcenter-wrap">
                             {{currentViewYear}}年{{monthViewCurrentMonth ? monthViewCurrentMonth.month() + 1 + "月" : ""}}
                         </div>
@@ -97,7 +97,7 @@
                         <div>
                             <div class="hyh-month-content-span"
                                  :class="{active: monthViewCurrentMonth && (i === monthViewCurrentMonth.month() + 1)}"
-                                 @click="selectMonth(i)"
+                                 @click.stop="selectMonth(i)"
                                  v-for="i in 12"
                             >{{i}}月</div>
                         </div>
@@ -120,10 +120,14 @@
 
         },
         mounted() {
+            document.addEventListener("click",()=>{
+                this.popShow = false;
+            });
             this.changeTable("realTime");
         },
         data() {
             return {
+                popShow:false,
                 currentType:"",
                 inputValue:null,
                 typeListValue:"",
@@ -152,6 +156,9 @@
 
         },
         methods:{
+            inputValueClick(){
+                this.popShow = !this.popShow;
+            },
             reset(){
                 this.inputValue = null;
 
